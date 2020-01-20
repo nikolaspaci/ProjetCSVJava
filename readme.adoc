@@ -11,10 +11,10 @@ Ce projet est réalisé par 2 étudiants :  link:https://github.com/13tomoore[To
 |Etape | Mission
 
 |0|Ouvrir un fichier au format CSV sans lever d'exceptions (choix de la librairie pour le parsing des fichiers au format CSV).
-|0 bis| Etre capable d'écrire dans un fichier CSV et impléménter le syteme de logging.
-|1| Créer des classes sérialisées à partir du fichier JSON de descriptions préalablement parser (choix de la librairie pour parser le json).
+|0 bis| Etre capable d'écrire et lire dans un fichier CSV et impléménter le syteme de logging.
+|1| Réaliser le parsing à partir du fichier de règles en JSON(choix de la librairie pour parser le json).
 |2| Créer l'ensemble des méthodes ayant pour but de s'assurer que les champs respectent certainnes règles.
-|3| A partir du csv importer les données dans des objets serialisés en vérifiant le respect des règles.
+|3| Lire le csv en vérifiant le respect des règles.
 |4| Créer les règles d'anonymisations (méthodes) des données.
 |5| Anonymiser les données en entrée puis les resortir dans un autre csv.
 |=========================================================
