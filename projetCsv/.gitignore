@@ -1,2 +1,8 @@
+out.log
+.classpath
+.project
+.settings/
 /target/
+.DS_Store
 /bin/
+

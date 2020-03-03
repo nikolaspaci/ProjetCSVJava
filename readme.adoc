@@ -1,1 +1,22 @@
-Projet M1 JAVA CSV
+=== Projet JAVA M1 MIAGE : Vérifier et Anonymiser des données image:https://travis-ci.org/nikolaspaci/ProjetCSVJava.svg?branch=master["Build Status", link="https://travis-ci.org/nikolaspaci/ProjetCSVJava"]
+
+Un projet Java développé par des étudiants de l'université Paris Dauphine dans le but de vérifier et anonymiser les données provenant d'un fichier au format CSV.
+
+Ce projet est réalisé par 2 étudiants :  link:https://github.com/13tomoore[Tom MOORE], link:https://github.com/nikolaspaci[Nikola SPACI]
+
+=== RoadMap
+
+[width="80%",cols="^3,^7",options="header"]
+|=========================================================
+|Etape | Mission
+
+
+|0| Réaliser le parsing à partir du fichier de règles en JSON(choix de la librairie pour parser le json).
+|1|Ouvrir un fichier au format CSV sans lever d'exceptions (choix de la librairie pour le parsing des fichiers au format CSV).
+|1 bis| Etre capable d'écrire et lire dans un fichier CSV.
+|2| Créer l'ensemble des méthodes ayant pour but de s'assurer que les champs respectent certaines règles.
+|3| Lire le csv en vérifiant le respect des règles.
+|4| Créer les règles d'anonymisations (méthodes) des données.
+|5| Anonymiser les données en entrée puis les resortir dans un autre fichier csv.
+|6| Réalisation des bonus.
+|=========================================================
