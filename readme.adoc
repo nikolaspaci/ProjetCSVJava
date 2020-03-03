@@ -1,5 +1,5 @@
 === Projet JAVA M1 MIAGE : Vérifier et Anonymiser des données
-{<img src="https://travis-ci.org/nikolaspaci/ProjetCSVJava.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/nikolaspaci/ProjetCSVJava]
+image:https://travis-ci.org/nikolaspaci/ProjetCSVJava.svg?branch=master["Build Status", link="https://travis-ci.org/nikolaspaci/ProjetCSVJava"]
 Un projet Java développé par des étudiants de l'université Paris Dauphine dans le but de vérifier et anonymiser les données provenant d'un fichier au format CSV.
 
 Ce projet est réalisé par 2 étudiants :  link:https://github.com/13tomoore[Tom MOORE], link:https://github.com/nikolaspaci[Nikola SPACI]
