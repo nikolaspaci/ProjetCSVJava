@@ -1,21 +1,29 @@
 package column;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class AnonymeColumn.
  */
 public class AnonymeColumn extends Column {
 
-/** The change to. */
-private String changeTo;
+	/**
+	 * Instantiates a new anonyme column.
+	 *
+	 * @param name the name
+	 */
+	public AnonymeColumn(String name) {
+		super(name);
+	}
 
-/**
- * Gets the change to.
- *
- * @return the change to
- */
-public String getChangeTo() {
-	return changeTo;
-}
+	/** The change to. */
+	private String changeTo;
+
+	/**
+	 * Gets the change to.
+	 *
+	 * @return the change to
+	 */
+	public String getChangeTo() {
+		return changeTo;
+	}
 }
