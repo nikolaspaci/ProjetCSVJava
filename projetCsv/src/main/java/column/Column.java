@@ -4,14 +4,21 @@ import java.util.Comparator;
 
 import javax.print.DocFlavor.STRING;
 
-
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Column.
  */
 public abstract class Column {
-	
+
+	/**
+	 * Instantiates a new column.
+	 *
+	 * @param name the name
+	 */
+	public Column(String name) {
+		this.name = name;
+	}
+
 	/** The name. */
 	private String name;
 
