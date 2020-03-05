@@ -1,10 +1,7 @@
 package column;
 
-import java.util.Comparator;
 
-import javax.print.DocFlavor.STRING;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Column.
  */

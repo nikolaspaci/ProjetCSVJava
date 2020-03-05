@@ -1,8 +1,10 @@
 package checker;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.univocity.parsers.common.record.Record;
 
@@ -15,6 +17,8 @@ import utils.JsonUtils;
  * Cette classe verifie les données d'un fichier
  */
 public class CsvChecker {
+	
+	private static Logger logger = LogManager.getLogger(CsvChecker.class);
 	
 	/** liste contenant le header du fichier */
 	private List<DescriptorColumn> lHeader;
@@ -53,18 +57,20 @@ public class CsvChecker {
 	 */
 	public boolean checktype(Record r) {
 		try {
+			logger.info("Checking of records " + r);
 			for (DescriptorColumn c : lHeader) {
-				Object a = r.getValue(c.getName(), CsvUtils.convert(c.getDataType()));
-				int ind = lchecker.indexOf(c);
-				if (ind != -1) {
-					for (String s : lchecker.get(ind).getShould()) {
-						if (!CheckRules.checkHub(s, a)) {
+				Object value = r.getValue(c.getName(), CsvUtils.getValueClass(c.getDataType()));
+				int indexColumn = lchecker.indexOf(c);
+				if (indexColumn != -1) {
+					for (String rule : lchecker.get(indexColumn).getShould()) {
+						
+						if (!CheckRules.checkHub(rule, value)) {
 							return false;
 						}
 					}
 				}
 			}
-
+			logger.info("End of checking of records " + r);
 		} catch (IllegalArgumentException e) {
 			return false;
 		}

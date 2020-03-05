@@ -1,9 +1,5 @@
-
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
-import com.univocity.parsers.common.record.Record;
 
 import anonymizer.CsvAnonymizer;
 import checker.CsvChecker;
@@ -14,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int choix = 0;
-		System.out.println("Taper 1 pour verifier les données");
+		System.out.println("Taper 1 pour vérifier les données");
 		System.out.println("Taper 2 pour anonymiser les données");
 		if (sc.hasNextInt())
 			choix = sc.nextInt();

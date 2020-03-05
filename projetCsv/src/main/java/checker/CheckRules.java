@@ -1,6 +1,5 @@
 package checker;
 
-import java.util.regex.Pattern;
 
 /**
  * Cette classe contient les règles de vérification des données
@@ -14,18 +13,18 @@ public class CheckRules {
 	/**
 	 * Point d'entrée pour savoir quelle règle de vérification appliquer
 	 *
-	 * @param a le nom de la règle de vérification à appliquer
-	 * @param b la donnée à vérifier
+	 * @param rulesName le nom de la règle de vérification à appliquer
+	 * @param valuetoAnon la donnée à vérifier
 	 * @return un booléen pour savoir si la donnée respecte la règle
 	 */
-	public static boolean checkHub(String a, Object b) {
-		switch (a) {
+	public static boolean checkHub(String rulesName, Object valuetoAnon) {
+		switch (rulesName) {
 		case "BE_AN_AGE":
-			return isCorrectAge((Integer) b);
+			return isCorrectAge((Integer) valuetoAnon);
 		case "BE_AN_DAUPHINE_EMAIL":
-			return isDauphineMail((String) b);
+			return isDauphineMail((String) valuetoAnon);
 		case "BE_AN_EMAIL":
-			return isMail((String) b);
+			return isMail((String) valuetoAnon);
 		default:
 			break;
 		}
@@ -35,35 +34,35 @@ public class CheckRules {
 	/**
 	 * Verifie si c'est un mail
 	 *
-	 * @param b le mail
+	 * @param valueToCheck le mail
 	 * @return true, si c'est un mail
 	 */
-	private static boolean isMail(String b) {
+	private static boolean isMail(String valueToCheck) {
 		String regexMail = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+$";
-		return b.matches(regexMail);
+		return valueToCheck.matches(regexMail);
 	}
 
 	/**
 	 * Verifie si c'est un mail de Dauphine
 	 *
-	 * @param b l'addresse mail
+	 * @param mailToCheck l'addresse mail
 	 * @return true, si c'est une addresse de dauphine
 	 */
-	private static boolean isDauphineMail(String b) {
+	private static boolean isDauphineMail(String mailToCheck) {
 		String regexMailDau1 = "^(.+)@dauphine.eu$";
 		String regexMailDau2 = "^(.+)@dauphine.psl.eu$";
 		String regexMailDau3 = "^(.+)@lamsade.dauphine.fr$";
-		return (b.matches(regexMailDau1) || b.matches(regexMailDau2) || b.matches(regexMailDau3));
+		return (mailToCheck.matches(regexMailDau1) || mailToCheck.matches(regexMailDau2) || mailToCheck.matches(regexMailDau3));
 
 	}
 
 	/**
 	 * Verifie si l'âge est correct
 	 *
-	 * @param b l'âge à vérifier
+	 * @param age l'âge à vérifier
 	 * @return true, si l'age est bon
 	 */
-	private static boolean isCorrectAge(Integer b) {
-		return (b >= 0 && b <= 120);
+	private static boolean isCorrectAge(Integer age) {
+		return (age >= 0 && age <= 120);
 	}
 }
