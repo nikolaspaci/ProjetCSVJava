@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.univocity.parsers.common.record.Record;
 
 import column.AnonymeColumn;
@@ -16,6 +19,8 @@ import utils.JsonUtils;
  * cette classe s'occupe de l'anonymisation des données
  */
 public class CsvAnonymizer {
+	
+	private static Logger logger = LogManager.getLogger(CsvAnonymizer.class);
 	
 	/** liste contenant le header du fichier */
 	private List<DescriptorColumn> lHeader;
@@ -51,16 +56,21 @@ public class CsvAnonymizer {
 	public void anonymData(List<Record> lr, String pathName) {
 		List<String[]> listrow=new ArrayList<>();
 		for (Record r : lr) {
+			logger.info("Start of anonimization of " + r);
 			List<String> la = new ArrayList<>();
 			for (AnonymeColumn c : lAnonym) {
 				int ind = lHeader.indexOf(c);
 				if (ind != -1) {
-					Object b = r.getValue(c.getName(), CsvUtils.convert(lHeader.get(ind).getDataType()));
+					Object b = r.getValue(c.getName(), CsvUtils.getValueClass(lHeader.get(ind).getDataType()));
 					la.add(AnonymizeRules.anonymiseHub(c.getChangeTo(), b).toString());
 				}
+				logger.info("End of anonimization of " + r);
 			}
 			listrow.add(la.toArray(new String[0]));
 		}
+		logger.info("The anonymization went well");
+		logger.info("Rewriting csv file");
 		CsvUtils.writeCsvRows(listrow,lAnonym,pathName);
+		logger.info("Rewriting went well");
 	}
 }

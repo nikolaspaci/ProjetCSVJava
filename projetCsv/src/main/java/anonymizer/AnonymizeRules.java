@@ -3,13 +3,16 @@ package anonymizer;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Cette classe contient les règles d'anonymisation des données
  */
 public class AnonymizeRules {
 
-
+	private static Logger logger = LogManager.getLogger(AnonymizeRules.class);
+	
 	private AnonymizeRules() {
 		throw new IllegalStateException("Rules class");
 	}
@@ -40,14 +43,16 @@ public class AnonymizeRules {
 	 * @return l'addresse anonymisée
 	 */
 	private static String randomLetterMail(String b) {
+		logger.info("Start of random anonimization");
 		StringBuilder rdmLetter = new StringBuilder();
 		if(!b.contains("@"))
 			return b;
 		String firstPart = b.split("@")[0];
 		String secondPart = b.split("@")[1];
 		for (int i = 0; i < firstPart.length(); i++) {
-			rdmLetter.append(RandomStringUtils.randomAlphabetic(1));
+			rdmLetter.append(RandomStringUtils.randomAlphabetic(1));			
 		}
+		logger.info("End of random anonimization");
 		return String.format("%s@%s", rdmLetter.toString(), secondPart);
 	}
 

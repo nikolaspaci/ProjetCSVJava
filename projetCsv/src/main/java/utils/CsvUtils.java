@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.csv.CsvFormat;
@@ -23,6 +25,7 @@ import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvWriter;
 import com.univocity.parsers.csv.CsvWriterSettings;
 
+import anonymizer.CsvAnonymizer;
 import column.Column;
 import column.DescriptorColumn;
 
@@ -30,7 +33,9 @@ import column.DescriptorColumn;
  * Fonction utile pour lire et écrire un fichier CSV
  */
 public class CsvUtils {
-
+	
+	private static Logger logger = LogManager.getLogger(CsvUtils.class);
+	
 	/**
 	 * Instantiates a new csv utils.
 	 */
@@ -45,12 +50,14 @@ public class CsvUtils {
 	 * @return une liste avec chaque enregistrement
 	 */
 	public static List<Record> getCsvRecords(String pathName) {
+		logger.info("Opening the csv file " + pathName + " in order to read it");
 		File fileToRead = new File(pathName);
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setDelimiter(';');
 		settings.setHeaderExtractionEnabled(true);
 		settings.getFormat().setLineSeparator("\n");
 		CsvParser parser = new CsvParser(settings);
+		logger.info("Reading  of file " + pathName + " went well");
 		return parser.parseAllRecords(fileToRead);
 	}
 
@@ -62,6 +69,7 @@ public class CsvUtils {
 	 * @param pathName chemin du fichier de sorti
 	 */
 	public static void writeCsvRecords(List<Record> lr, List<DescriptorColumn> lHeader, String pathName) {																// chosit
+		logger.info("Trying to write records into " + pathName);
 		CsvWriterSettings csvSet=new CsvWriterSettings();
 		csvSet.getFormat().setDelimiter(";");
 		csvSet.getFormat().setLineSeparator("\n");
@@ -70,6 +78,7 @@ public class CsvUtils {
 		csvWriter.writeHeaders();
 		csvWriter.writeRecords(lr);
 		csvWriter.close();
+		logger.info("Wrting of records into " + pathName + " went well");		
 	}
 	
 	/**
@@ -80,6 +89,7 @@ public class CsvUtils {
 	 * @param pathName chemin du fichier de sorti
 	 */
 	public static void writeCsvRows(List<String[]> lr, List<? extends Column> lHeader, String pathName) { 
+		logger.info("Trying to write String into " + pathName);
 		CsvWriterSettings csvSet=new CsvWriterSettings();
 		csvSet.getFormat().setDelimiter(";");
 		csvSet.getFormat().setLineSeparator("\n");
@@ -90,6 +100,7 @@ public class CsvUtils {
 			csvWriter.writeRow(row);
 		}
 		csvWriter.close();
+		logger.info("Wrting of String into " + pathName + " went well");
 	}
 
 	public static String[] getHeader(List<? extends Column>lc) {
@@ -106,7 +117,7 @@ public class CsvUtils {
 	 * @param a le type
 	 * @return the class<? extends object>
 	 */
-	public static Class<? extends Object> convert(String a) {
+	public static Class<? extends Object> getValueClass(String a) {
 		switch (a) {
 		case "STRING":
 			return String.class;
