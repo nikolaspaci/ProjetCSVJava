@@ -12,12 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import checker.CsvChecker;
+
 import column.AnonymeColumn;
 import column.DescriptorColumn;
 import column.VerifColumn;
 
-// TODO: Auto-generated Javadoc
 /**
  * Fonction utile pour lire un fichier json
  */
@@ -60,8 +59,7 @@ public class JsonUtils {
 	public static List<VerifColumn> getCheckingHeader(String pathName) {
 		logger.info("Trying to get specific column of file " + pathName + " associated with specific checking rules");
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<VerifColumn>>() {
-			/**/}.getType();
+		Type listType = new TypeToken<List<VerifColumn>>() {}.getType();
 		try (JsonReader reader = new JsonReader(new FileReader(pathName))) {
 
 			return gson.fromJson(reader, listType);
@@ -79,7 +77,7 @@ public class JsonUtils {
 	public static List<AnonymeColumn> getAnonymHeader(String pathName) {
 		logger.info("Trying to get specific column of file " + pathName + " associated with specific anonimization rules");
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<AnonymeColumn>>() {/**/}.getType();
+		Type listType = new TypeToken<List<AnonymeColumn>>() {}.getType();
 		try (JsonReader reader = new JsonReader(new FileReader(pathName))){
 			return gson.fromJson(reader, listType);
 		} catch (IOException e) {

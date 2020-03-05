@@ -1,6 +1,5 @@
 package checker;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.univocity.parsers.common.record.Record;
 
-import anonymizer.CsvAnonymizer;
 import column.DescriptorColumn;
 import column.VerifColumn;
 import utils.CsvUtils;
@@ -61,12 +59,12 @@ public class CsvChecker {
 		try {
 			logger.info("Checking of records " + r);
 			for (DescriptorColumn c : lHeader) {
-				Object a = r.getValue(c.getName(), CsvUtils.getValueClass(c.getDataType()));
-				int ind = lchecker.indexOf(c);
-				if (ind != -1) {
-					for (String s : lchecker.get(ind).getShould()) {
+				Object value = r.getValue(c.getName(), CsvUtils.getValueClass(c.getDataType()));
+				int indexColumn = lchecker.indexOf(c);
+				if (indexColumn != -1) {
+					for (String rule : lchecker.get(indexColumn).getShould()) {
 						
-						if (!CheckRules.checkHub(s, a)) {
+						if (!CheckRules.checkHub(rule, value)) {
 							return false;
 						}
 					}

@@ -1,6 +1,5 @@
 package anonymizer;
 
-import java.util.Iterator;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -20,16 +19,16 @@ public class AnonymizeRules {
 	/**
 	 * Point d'entrée pour savoir quelle règle d'anonymisation appliquer
 	 *
-	 * @param a le nom de la règle d'anonymisation à appliquer 
-	 * @param b la donnée à anonymiser
+	 * @param rulesName le nom de la règle d'anonymisation à appliquer 
+	 * @param valueToAnon la donnée à anonymiser
 	 * @return la donnée anonymiser
 	 */
-	public static Object anonymiseHub(String a, Object b) {
-		switch (a) {
+	public static Object anonymiseHub(String rulesName, Object valueToAnon) {
+		switch (rulesName) {
 		case "RANDOM_LETTER_FOR_LOCAL_PART":
-			return randomLetterMail((String) b);
+			return randomLetterMail((String) valueToAnon);
 		case "RANDOM_LETTER":
-			return randomLetter((String) b);
+			return randomLetter((String) valueToAnon);
 		default:
 			break;
 		}
@@ -39,16 +38,16 @@ public class AnonymizeRules {
 	/**
 	 * Change les lettres d'une addresse de manière aléatoire
 	 *
-	 * @param b l'addresse à anonymiser
+	 * @param valueToRdm l'addresse à anonymiser
 	 * @return l'addresse anonymisée
 	 */
-	private static String randomLetterMail(String b) {
+	private static String randomLetterMail(String valueToRdm) {
 		logger.info("Start of random anonimization");
 		StringBuilder rdmLetter = new StringBuilder();
-		if(!b.contains("@"))
-			return b;
-		String firstPart = b.split("@")[0];
-		String secondPart = b.split("@")[1];
+		if(!valueToRdm.contains("@"))
+			return valueToRdm;
+		String firstPart = valueToRdm.split("@")[0];
+		String secondPart = valueToRdm.split("@")[1];
 		for (int i = 0; i < firstPart.length(); i++) {
 			rdmLetter.append(RandomStringUtils.randomAlphabetic(1));			
 		}
@@ -59,12 +58,12 @@ public class AnonymizeRules {
 	/**
 	 * Change les lettres de manière aléatoire
 	 *
-	 * @param b le mot à anonymiser
+	 * @param valueToRandom le mot à anonymiser
 	 * @return le mot anonymisé
 	 */
-	private static String randomLetter(String b) {
+	private static String randomLetter(String valueToRandom) {
 		StringBuilder rdmLetter = new StringBuilder();
-		for (int i = 0; i < b.length(); i++) {
+		for (int i = 0; i < valueToRandom.length(); i++) {
 			rdmLetter.append(RandomStringUtils.randomAlphabetic(1));
 		}
 		return rdmLetter.toString();

@@ -1,31 +1,19 @@
 package utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.univocity.parsers.common.record.Record;
-import com.univocity.parsers.csv.CsvFormat;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvWriter;
 import com.univocity.parsers.csv.CsvWriterSettings;
 
-import anonymizer.CsvAnonymizer;
 import column.Column;
 import column.DescriptorColumn;
 
@@ -33,6 +21,16 @@ import column.DescriptorColumn;
  * Fonction utile pour lire et écrire un fichier CSV
  */
 public class CsvUtils {
+	static CsvWriterSettings csvWriteSetting=new CsvWriterSettings();
+	static CsvParserSettings csvReadSetting=new CsvParserSettings();
+	static {
+		csvReadSetting.getFormat().setDelimiter(';');
+		csvReadSetting.setHeaderExtractionEnabled(true);
+		csvReadSetting.getFormat().setLineSeparator("\n");
+		csvWriteSetting.getFormat().setDelimiter(";");
+		csvWriteSetting.getFormat().setLineSeparator("\n");
+	}
+	
 	
 	private static Logger logger = LogManager.getLogger(CsvUtils.class);
 	
@@ -52,11 +50,7 @@ public class CsvUtils {
 	public static List<Record> getCsvRecords(String pathName) {
 		logger.info("Opening the csv file " + pathName + " in order to read it");
 		File fileToRead = new File(pathName);
-		CsvParserSettings settings = new CsvParserSettings();
-		settings.getFormat().setDelimiter(';');
-		settings.setHeaderExtractionEnabled(true);
-		settings.getFormat().setLineSeparator("\n");
-		CsvParser parser = new CsvParser(settings);
+		CsvParser parser = new CsvParser(csvReadSetting);
 		logger.info("Reading  of file " + pathName + " went well");
 		return parser.parseAllRecords(fileToRead);
 	}
@@ -64,48 +58,42 @@ public class CsvUtils {
 	/**
 	 * Ecrire des enregistrements(Record) dans un CSV
 	 *
-	 * @param lr Liste d'enregistrements
+	 * @param listRecords Liste d'enregistrements
 	 * @param lHeader Liste contenant le nom des colonnes du CSV
-	 * @param pathName chemin du fichier de sorti
+	 * @param outputPathFile chemin du fichier de sorti
 	 */
-	public static void writeCsvRecords(List<Record> lr, List<DescriptorColumn> lHeader, String pathName) {																// chosit
-		logger.info("Trying to write records into " + pathName);
-		CsvWriterSettings csvSet=new CsvWriterSettings();
-		csvSet.getFormat().setDelimiter(";");
-		csvSet.getFormat().setLineSeparator("\n");
-		csvSet.setHeaders(getHeader(lHeader));
-		CsvWriter csvWriter = new CsvWriter(new File(pathName), csvSet);
+	public static void writeCsvRecords(List<Record> listRecords, List<DescriptorColumn> lHeader, String outputPathFile) {																// chosit
+		logger.info("Trying to write records into " + outputPathFile);
+		csvWriteSetting.setHeaders(getHeader(lHeader));
+		CsvWriter csvWriter = new CsvWriter(new File(outputPathFile), csvWriteSetting);
 		csvWriter.writeHeaders();
-		csvWriter.writeRecords(lr);
+		csvWriter.writeRecords(listRecords);
 		csvWriter.close();
-		logger.info("Wrting of records into " + pathName + " went well");		
+		logger.info("Wrting of records into " + outputPathFile + " went well");		
 	}
 	
 	/**
 	 * Ecrire des enregistrements(au format String) dans un CSV
 	 *
-	 * @param lr Liste d'enregistrements
+	 * @param listRecords Liste d'enregistrements
 	 * @param lHeader Liste contenant le nom des colonnes du CSV
-	 * @param pathName chemin du fichier de sorti
+	 * @param outputPathFile chemin du fichier de sorti
 	 */
-	public static void writeCsvRows(List<String[]> lr, List<? extends Column> lHeader, String pathName) { 
-		logger.info("Trying to write String into " + pathName);
-		CsvWriterSettings csvSet=new CsvWriterSettings();
-		csvSet.getFormat().setDelimiter(";");
-		csvSet.getFormat().setLineSeparator("\n");
-		csvSet.setHeaders(getHeader(lHeader));
-		CsvWriter csvWriter = new CsvWriter(new File(pathName),csvSet);
+	public static void writeCsvRows(List<String[]> listRecords, List<? extends Column> lHeader, String outputPathFile) { 
+		logger.info("Trying to write String into " + outputPathFile);
+		csvWriteSetting.setHeaders(getHeader(lHeader));
+		CsvWriter csvWriter = new CsvWriter(new File(outputPathFile),csvWriteSetting);
 		csvWriter.writeHeaders();
-		for (String[] row : lr) {
+		for (String[] row : listRecords) {
 			csvWriter.writeRow(row);
 		}
 		csvWriter.close();
-		logger.info("Wrting of String into " + pathName + " went well");
+		logger.info("Wrting of String into " + outputPathFile + " went well");
 	}
 
-	public static String[] getHeader(List<? extends Column>lc) {
+	public static String[] getHeader(List<? extends Column>listColumns) {
 		List<String> lNameColumn=new ArrayList<>();
-		for (Column c: lc) {
+		for (Column c: listColumns) {
 			lNameColumn.add(c.getName());
 		}
 		return lNameColumn.toArray(new String[0]);
@@ -114,11 +102,11 @@ public class CsvUtils {
 	/**
 	 * fonction retourne classe du type indiqué
 	 *
-	 * @param a le type
+	 * @param dataType le type
 	 * @return the class<? extends object>
 	 */
-	public static Class<? extends Object> getValueClass(String a) {
-		switch (a) {
+	public static Class<? extends Object> getValueClass(String dataType) {
+		switch (dataType) {
 		case "STRING":
 			return String.class;
 		case "DOUBLE":

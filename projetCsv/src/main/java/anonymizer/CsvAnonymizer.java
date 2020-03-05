@@ -1,6 +1,5 @@
 package anonymizer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,27 +49,27 @@ public class CsvAnonymizer {
 	/**
 	 * Fonction en charge d'anonymiser les données
 	 *
-	 * @param lr Il s'agit de la liste des lignes de données du fichier csv
+	 * @param listRecords Il s'agit de la liste des lignes de données du fichier csv
 	 * @param pathName Il s'agit du nom du fichier de sorti
 	 */
-	public void anonymData(List<Record> lr, String pathName) {
-		List<String[]> listrow=new ArrayList<>();
-		for (Record r : lr) {
+	public void anonymData(List<Record> listRecords, String pathName) {
+		List<String[]> listRowAnonym=new ArrayList<>();
+		for (Record r : listRecords) {
 			logger.info("Start of anonimization of " + r);
-			List<String> la = new ArrayList<>();
-			for (AnonymeColumn c : lAnonym) {
-				int ind = lHeader.indexOf(c);
+			List<String> listValueAnonym = new ArrayList<>();
+			for (AnonymeColumn columnA : lAnonym) {
+				int ind = lHeader.indexOf(columnA);
 				if (ind != -1) {
-					Object b = r.getValue(c.getName(), CsvUtils.getValueClass(lHeader.get(ind).getDataType()));
-					la.add(AnonymizeRules.anonymiseHub(c.getChangeTo(), b).toString());
+					Object valueAnonym = r.getValue(columnA.getName(), CsvUtils.getValueClass(lHeader.get(ind).getDataType()));
+					listValueAnonym.add(AnonymizeRules.anonymiseHub(columnA.getChangeTo(), valueAnonym).toString());
 				}
 				logger.info("End of anonimization of " + r);
 			}
-			listrow.add(la.toArray(new String[0]));
+			listRowAnonym.add(listValueAnonym.toArray(new String[0]));
 		}
 		logger.info("The anonymization went well");
 		logger.info("Rewriting csv file");
-		CsvUtils.writeCsvRows(listrow,lAnonym,pathName);
+		CsvUtils.writeCsvRows(listRowAnonym,lAnonym,pathName);
 		logger.info("Rewriting went well");
 	}
 }
